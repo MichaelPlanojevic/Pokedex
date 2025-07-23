@@ -13,35 +13,24 @@ async function fetchMultiplePokemon(start = 1, end = 151) {
     }
 }
 function createPokemonItemColor(data) {
-    const typeColors = {
-        fire: '#F08030',
-        water: '#6890F0',
-        grass: '#78C850',
-        electric: '#F8D030',
-        ice: '#98D8D8',
-        fighting: '#C03028',
-        poison: '#A040A0',
-        ground: '#E0C068',
-        flying: '#A890F0',
-        psychic: '#F85888',
-        bug: '#A8B820',
-        rock: '#B8A038',
-        ghost: '#705898',
-        dark: '#705848',
-        dragon: '#7038F8',
-        steel: '#B8B8D0',
-        fairy: '#EE99AC',
-        normal: '#A8A878'
-    };
-    
+        const typeIconsHTML = data.types.map(t => {
+        const typeName = t.type.name;
+        const iconPath = `img-types/${typeName}.svg`;
+        return `<img src="${iconPath}" alt="${typeName}" class="type-icon ${typeName}" title="${typeName}">`;
+    }).join('');
+
     const mainType = data.types[0].type.name;
-    const bgColor = typeColors[mainType] || '#A8A878';
     const item = document.createElement('div');
     item.className = 'pokemon-item';
+    item.classList.add(mainType);
     item.innerHTML = `
-        <div class="card" style="background-color: ${bgColor};" onclick="toggleCardBody(this)">
-        <p># ${data.id}</p>
-        <h3>${data.name}</h3>
+        <div class="card-header">
+        <div class="pokemon-header">
+        <h2 class="pokemon-id">#${data.id}</h2>
+        <h3 class="pokemon-name">${data.name}</h3>
+        </div>
+        </div>
+        <div class="card ${mainType}" onclick="toggleCardBody(this)">
         <img src="${data.sprites.front_default}" class="card-img-top" alt="${data.name}">
         <div class="card-body-hidden" id="cardBody${data.id}">
         <p>Height: ${data.height}</p>
@@ -50,7 +39,9 @@ function createPokemonItemColor(data) {
         <p>Elements: ${data.types.map(t => t.type.name).join(', ')}</p>
         <p>Base Experience: ${data.base_experience}</p>
       </div>
-      </div>   
+      <div class="card-footer">
+      ${typeIconsHTML}
+      </div>
       `;
     return item;
 }
