@@ -12,36 +12,70 @@ async function fetchMultiplePokemon(start = 1, end = 151) {
         }
     }
 }
+
 function createPokemonItemColor(data) {
-        const typeIconsHTML = data.types.map(t => {
+    const minimalData = extractMinimalData(data);
+    const mainType = minimalData.types[0].type.name;
+
+    const item = document.createElement('div');
+    item.className = 'pokemon-item';
+    item.classList.add(mainType);
+
+    item.appendChild(createCardHeader(minimalData));
+    item.appendChild(createCardElement(minimalData));
+
+    return item;
+}
+
+function extractMinimalData(data) {
+    return {
+        id: data.id,
+        name: data.name,
+        height: data.height,
+        weight: data.weight,
+        base_experience: data.base_experience,
+        sprites: {
+            front_default: data.sprites.front_default
+        },
+        abilities: data.abilities.map(a => ({ ability: { name: a.ability.name } })),
+        types: data.types.map(t => ({ type: { name: t.type.name } }))
+    };
+}
+
+function createCardHeader(data) {
+    const header = document.createElement('div');
+    header.className = 'card-header';
+    header.innerHTML = `
+        <div class="pokemon-header">
+            <h2 class="pokemon-id">#${data.id}</h2>
+            <h3 class="pokemon-name">${data.name}</h3>
+        </div>
+    `;
+    return header;
+}
+
+function createCardElement(data) {
+    const mainType = data.types[0].type.name;
+    const card = document.createElement('div');
+    card.className = `card ${mainType}`;
+    card.innerHTML = `
+        <img src="${data.sprites.front_default}" class="card-img-top" alt="${data.name}">
+        <div class="card-body-hidden"></div>
+        <div class="card-footer">${generateTypeIcons(data)}</div>
+    `;
+    card.dataset.pokemon = JSON.stringify(data);
+    card.addEventListener('click', () => {
+        const pokemon = JSON.parse(card.dataset.pokemon);
+        showOverlay(pokemon);
+    });
+    return card;
+}
+
+function generateTypeIcons(data) {
+    return data.types.map(t => {
         const typeName = t.type.name;
         const iconPath = `img-types/${typeName}.svg`;
         return `<img src="${iconPath}" alt="${typeName}" class="type-icon ${typeName}" title="${typeName}">`;
     }).join('');
-
-    const mainType = data.types[0].type.name;
-    const item = document.createElement('div');
-    item.className = 'pokemon-item';
-    item.classList.add(mainType);
-    item.innerHTML = `
-        <div class="card-header">
-        <div class="pokemon-header">
-        <h2 class="pokemon-id">#${data.id}</h2>
-        <h3 class="pokemon-name">${data.name}</h3>
-        </div>
-        </div>
-        <div class="card ${mainType}" onclick="toggleCardBody(this)">
-        <img src="${data.sprites.front_default}" class="card-img-top" alt="${data.name}">
-        <div class="card-body-hidden" id="cardBody${data.id}">
-        <p>Height: ${data.height}</p>
-        <p>Weight: ${data.weight}</p>
-        <p>Abilities: ${data.abilities.map(a => a.ability.name).join(', ')}</p>
-        <p>Elements: ${data.types.map(t => t.type.name).join(', ')}</p>
-        <p>Base Experience: ${data.base_experience}</p>
-      </div>
-      <div class="card-footer">
-      ${typeIconsHTML}
-      </div>
-      `;
-    return item;
 }
+
