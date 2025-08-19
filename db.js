@@ -13,17 +13,59 @@ async function fetchMultiplePokemon(start = 1, end = 151) {
     }
 }
 
+async function fetchSpeciesData(speciesUrl) {
+    const res = await fetch(speciesUrl);
+    return await res.json();
+}
+
+function extractEvolutionNames(evoChainData) {
+    const names = [];
+    let currentEvo = evoChainData.chain;
+    do {
+        names.push(currentEvo.species.name);
+        currentEvo = currentEvo.evolves_to[0];
+    } while (currentEvo);
+    return names;
+}
+
+async function fetchPokemonDetails(names) {
+    return Promise.all(
+        names.map(async (name) => {
+            const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+            const data = await res.json();
+            return {
+                name: data.name,
+                image: data.sprites.other['official-artwork'].front_default 
+                || data.sprites.front_default
+            };
+        })
+    );
+}
+
+async function loadEvolutionChain(speciesUrl) {
+    const evolutionTab = document.getElementById('tab-evochain');
+    evolutionTab.innerHTML = `<p>Loading evolution chain...</p>`;
+    try {
+        const speciesData = await fetchSpeciesData(speciesUrl);
+        const resEvoChain = await fetch(speciesData.evolution_chain.url);
+        const evoChainData = await resEvoChain.json();
+        const evolutionNames = extractEvolutionNames(evoChainData);
+        const evolutions = await fetchPokemonDetails(evolutionNames);
+        return evolutions;
+    } catch (error) {
+        console.error('Error loading evolution chain:', error);
+        return [];
+    }
+}
+
 function createPokemonItemColor(data) {
     const minimalData = extractMinimalData(data);
     const mainType = minimalData.types[0].type.name;
-
     const item = document.createElement('div');
     item.className = 'pokemon-item';
     item.classList.add(mainType);
-
     item.appendChild(createCardHeader(minimalData));
     item.appendChild(createCardElement(minimalData));
-
     return item;
 }
 
@@ -33,12 +75,20 @@ function extractMinimalData(data) {
         name: data.name,
         height: data.height,
         weight: data.weight,
+        stats: data.stats.map(stat => ({ 
+            stat: { name: stat.stat.name },
+            base_stat: stat.base_stat
+        })),
         base_experience: data.base_experience,
         sprites: {
-            front_default: data.sprites.front_default
+            front_default: data.sprites.front_default,
+            official_artwork: data.sprites.other['official-artwork'].front_default
         },
         abilities: data.abilities.map(a => ({ ability: { name: a.ability.name } })),
-        types: data.types.map(t => ({ type: { name: t.type.name } }))
+        types: data.types.map(t => ({ type: { name: t.type.name } })),
+        species: {
+            url: data.species.url
+        }
     };
 }
 
@@ -59,7 +109,7 @@ function createCardElement(data) {
     const card = document.createElement('div');
     card.className = `card ${mainType}`;
     card.innerHTML = `
-        <img src="${data.sprites.front_default}" class="card-img-top" alt="${data.name}">
+        <img src="${data.sprites.official_artwork}" class="card-img-top" alt="${data.name}">
         <div class="card-body-hidden"></div>
         <div class="card-footer">${generateTypeIcons(data)}</div>
     `;
@@ -78,4 +128,3 @@ function generateTypeIcons(data) {
         return `<img src="${iconPath}" alt="${typeName}" class="type-icon ${typeName}" title="${typeName}">`;
     }).join('');
 }
-
