@@ -6,6 +6,10 @@ body {
   padding: 20px;
 }
 
+p{
+  color: #ffffff;
+}
+
 .pokemon-name {
   color: #ffffff;
   text-align: center;
@@ -273,4 +277,78 @@ body {
 .type-icon {
   background: #a8a878;
   border-radius: 6px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.stat-name {
+    width: 100px;
+    text-align: left;
+    font-weight: bold;
+    flex-shrink: 0;
+    color: #ffffff;
+}
+
+.stat-bar-container {
+    flex: 1;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 20px;
+    position: relative;
+}
+
+.stat-bar {
+    height: 100%;
+    transition: width 0.4s ease;
+    background-color: #9dbcd4;
+}
+
+.stat-value{
+  display: none;
+}
+
+.evolution-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0.5rem;
+}
+
+.evolution-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.evolution-item {
+  text-align: center;
+}
+
+.evolution-item img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+}
+
+.evolution-name {
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.evolution-arrow {
+  width: 36px;
+  height: 36px;
+  background: no-repeat center / contain 
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M4 12h16m-6-6l6 6-6 6' stroke='%23555' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  animation: arrowPulse 1.2s infinite;
+}
+
+@keyframes arrowPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
 }
