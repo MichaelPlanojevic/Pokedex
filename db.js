@@ -1,16 +1,24 @@
 async function fetchMultiplePokemon(start = 1, end = 151) {
     const container = document.getElementById('pokemonList');
     container.innerHTML = '';
-    for (let id = start; id <= end; id++) {
-        try {
-            const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-            const data = await response.json();
+    try {
+        const promises = [];
+        for (let id = start; id <= end; id++) {
+            promises.push(fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res => res.json()));
+        }
+        const results = await Promise.all(promises);
+        results.forEach(data => {
             const item = createPokemonItemColor(data);
             container.appendChild(item);
-        } catch (error) {
-            console.error('Error fetching Pokémon data:', error);
-        }
+        });
+    } catch (error) {
+        console.error('Error fetching Pokémon data:', error);
     }
+}
+
+function capitalize(str) {
+    if(!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 async function fetchSpeciesData(speciesUrl) {
@@ -20,30 +28,27 @@ async function fetchSpeciesData(speciesUrl) {
 
 function extractEvolutionNames(evoChainData) {
     const names = [];
-    let currentEvo = evoChainData.chain;
-    do {
+    for (let currentEvo = evoChainData.chain; currentEvo; currentEvo = currentEvo.evolves_to[0]) {
         names.push(currentEvo.species.name);
-        currentEvo = currentEvo.evolves_to[0];
-    } while (currentEvo);
+    }
     return names;
 }
 
+async function getPokemon(name) {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+    const { name: pokeName, sprites } = await res.json();
+    return {
+        name: capitalize(pokeName),
+        image: sprites.other['official-artwork'].front_default || sprites.front_default
+    };
+}
+
 async function fetchPokemonDetails(names) {
-    return Promise.all(
-        names.map(async (name) => {
-            const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-            const data = await res.json();
-            return {
-                name: data.name,
-                image: data.sprites.other['official-artwork'].front_default 
-                || data.sprites.front_default
-            };
-        })
-    );
+    return Promise.all(names.map(getPokemon));
 }
 
 async function loadEvolutionChain(speciesUrl) {
-    const evolutionTab = document.getElementById('tab-evochain');
+    const evolutionTab = document.getElementById('evochain');
     evolutionTab.innerHTML = `<p>Loading evolution chain...</p>`;
     try {
         const speciesData = await fetchSpeciesData(speciesUrl);
@@ -69,27 +74,20 @@ function createPokemonItemColor(data) {
     return item;
 }
 
-function extractMinimalData(data) {
-    return {
-        id: data.id,
-        name: data.name,
-        height: data.height,
-        weight: data.weight,
-        stats: data.stats.map(stat => ({ 
-            stat: { name: stat.stat.name },
-            base_stat: stat.base_stat
-        })),
-        base_experience: data.base_experience,
-        sprites: {
-            front_default: data.sprites.front_default,
-            official_artwork: data.sprites.other['official-artwork'].front_default
-        },
-        abilities: data.abilities.map(a => ({ ability: { name: a.ability.name } })),
-        types: data.types.map(t => ({ type: { name: t.type.name } })),
-        species: {
-            url: data.species.url
-        }
-    };
+function extractMinimalData({
+  id, name, height, weight, stats, base_experience, sprites, abilities, types, species
+}) {
+  return {
+    id, name: capitalize(name), height, weight, base_experience,
+    stats: stats.map(s => ({ stat: { name: s.stat.name }, base_stat: s.base_stat })),
+    sprites: {
+      front_default: sprites.front_default,
+      official_artwork: sprites.other['official-artwork'].front_default
+    },
+    abilities: abilities.map(a => ({ ability: { name: a.ability.name } })),
+    types: types.map(t => ({ type: { name: t.type.name } })),
+    species: { url: species.url }
+  };
 }
 
 function createCardHeader(data) {
@@ -111,12 +109,11 @@ function createCardElement(data) {
     card.innerHTML = `
         <img src="${data.sprites.official_artwork}" class="card-img-top" alt="${data.name}">
         <div class="card-body-hidden"></div>
-        <div class="card-footer">${generateTypeIcons(data)}</div>
-    `;
+        <div class="card-footer">${generateTypeIcons(data)}</div>`;
     card.dataset.pokemon = JSON.stringify(data);
     card.addEventListener('click', () => {
-        const pokemon = JSON.parse(card.dataset.pokemon);
-        showOverlay(pokemon);
+    const pokemon = JSON.parse(card.dataset.pokemon);
+    showOverlay(pokemon);
     });
     return card;
 }
