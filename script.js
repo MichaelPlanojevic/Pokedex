@@ -1,8 +1,19 @@
-function init() {
-  fetchMultiplePokemon(1, 35);
-}
+let currentIndex = 0;
+let allPokemonData = [];
 
-document.addEventListener('DOMContentLoaded', init);
+
+async function init() {
+  const start = Date.now();
+  await fetchMultiplePokemon(1, 35);
+  const elapsed = Date.now() - start;
+  const minLoadingTime = 2000;
+  if (elapsed < minLoadingTime) {
+    await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsed));
+  }
+  document.getElementById("searchBtn").addEventListener("click", filterSearchPokemon);
+  document.getElementById("loadingScreen").classList.add("hidden");
+  document.querySelector(".pokemon-list").style.display = "flex";
+}
 
 function toggleCardBody(cardElement) {
   cardElement.classList.toggle('show-details');
@@ -17,17 +28,14 @@ function setOverlayTheme(data) {
 }
 
 function renderMainTab(data) {
-    document.getElementById('tab-main').innerHTML = `
+    document.getElementById('main').innerHTML = `
         <p><strong>Height:</strong> ${data.height}cm</p>
         <p><strong>Weight:</strong> ${data.weight}kg</p>
-        <p><strong>Experience:</strong> ${data.base_experience}Exp</p>
-        <p><strong>Abilities:</strong></p>
-        <ul>${data.abilities.map(a => `<li>${a.ability.name}</li>`).join('')}</ul>
-    `;
+        <p><strong>Experience:</strong> ${data.base_experience}Exp</p>`
 }
 
 function renderStatsTab(data) {
-    document.getElementById('tab-stats').innerHTML = `
+    document.getElementById('stats').innerHTML = `
        <ul>
         ${data.stats.map(stat => `
             <li class="stat-item">
@@ -44,11 +52,7 @@ function renderStatsTab(data) {
 
 async function renderEvolutionTab(speciesUrl) {
     const evolutions = await loadEvolutionChain(speciesUrl);
-    const evoContainer = document.getElementById('tab-evochain');
-    if (!evolutions.length) {
-        evoContainer.innerHTML = '<p>No evolution data found.</p>';
-        return;
-    }
+    const evoContainer = document.getElementById('evochain');
     evoContainer.innerHTML = `
         <div class="evolution-container">
           ${evolutions.map((poke, index) => `
@@ -58,8 +62,7 @@ async function renderEvolutionTab(speciesUrl) {
             </div>
             ${index < evolutions.length - 1 ? `<div class="evolution-arrow"></div>` : ''}
           `).join('')}
-        </div>
-    `;
+        </div>`;
 }
 
 async function showOverlay(data) {
@@ -79,11 +82,9 @@ function switchOverlayTab(tabName) {
   document.querySelectorAll('.overlay-tab-content').forEach(tab => {
     tab.classList.remove('active');
   });
-  const tabToShow = document.getElementById('tab-' + tabName);
+  const tabToShow = document.getElementById(tabName);
   if (tabToShow) {
     tabToShow.classList.add('active');
-  } else {
-    console.warn('Tab nicht gefunden:', tabName);
   }
   document.querySelectorAll('.overlay-tabs button').forEach(btn => {
     btn.classList.remove('active');
@@ -92,4 +93,33 @@ function switchOverlayTab(tabName) {
   if (btnToActivate) {
     btnToActivate.classList.add('active');
   }
+}
+
+async function nextPokemon(){
+  if (allPokemonData.length === 0) return;
+  currentIndex = (currentIndex + 1) % allPokemonData.length;
+  showOverlay(allPokemonData[currentIndex]);
+}
+
+async function previousPokemon(){
+  if (allPokemonData.length === 0) return;
+  currentIndex = (currentIndex - 1 + allPokemonData.length) % allPokemonData.length;
+  showOverlay(allPokemonData[currentIndex]);
+}
+
+function filterSearchPokemon() {
+  const query = document.getElementById("searchInput").value.trim().toLowerCase();
+  const message = document.getElementById("searchMessage");
+  message.textContent = "Please enter at least 3 characters.";
+  if (query.length < 3) {
+    message.style.display = "flex";
+    return;
+  } else {
+    message.style.display = "none";
+  }
+  const allPokemon = document.querySelectorAll("#pokemonList .pokemon-item");
+  allPokemon.forEach(pokemon => {
+    const name = pokemon.querySelector(".pokemon-name").textContent.toLowerCase();
+    pokemon.style.display = name.includes(query) ? "block" : "none";
+  });
 }
