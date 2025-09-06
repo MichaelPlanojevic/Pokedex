@@ -17,28 +17,41 @@
     <title>Pokedex</title>
 </head>
 
-<body>
-    <h1>Pokedex</h1>
+<body onload="init()">
+    <header>
+        <div class="loading-screen" id="loadingScreen">
+            <div class="pokeball"></div>
+        </div>
+        <div class="header-title">
+            <h1>Pokedex</h1>
+        </div>
+        <div class="header-controls">
+            <input class="search-filter" type="text" id="searchInput" placeholder="Search Pokémon...">
+            <button id="searchBtn" class="search-button">Search</button>
+            <p id="searchMessage" class="search-message"></p>
+        </div>
+    </header>
     <div class="pokemon-list" id="pokemonList"></div>
-    <div id="pokemonOverlay" class="overlay" onclick="closeOverlay()">
+    <div id="pokemonOverlay" class="overlay">
         <div class="overlay-header">
-        <div class="overlay-content" onclick="event.stopPropagation()">
-            <img class="overlay-img" id="overlayImg" src="" alt="">
-            <h2 id="overlayName"></h2>
-            <div class="overlay-tabs">
-                <button onclick="switchOverlayTab('main')">Main</button>
-                <button onclick="switchOverlayTab('stats')">Stats</button>
-                <button onclick="switchOverlayTab('evochain')">EvoChain</button>
+            <button id="prevBtn" class="nav-btn" onclick="previousPokemon()">&#8592;</button>
+            <button id="nextBtn" class="nav-btn" onclick="nextPokemon()">&#8594;</button>
+            <button id="closeBtn" class="nav-btn" onclick="closeOverlay()">&times;</button>
+            <div class="overlay-content" onclick="event.stopPropagation()">
+                <img class="overlay-img" id="overlayImg" src="" alt="">
+                <h2 id="overlayName" class="overlay-name"></h2>
+                <div class="overlay-tabs">
+                    <button onclick="switchOverlayTab('main')">Main</button>
+                    <button onclick="switchOverlayTab('stats')">Stats</button>
+                    <button onclick="switchOverlayTab('evochain')">EvoChain</button>
                 </div>
             </div>
             <div class="overlay-main-content">
-            <div class="overlay-tab-main" id="tab-main"></div>
-            <div class="overlay-tab-stats" id="tab-stats"></div>
-            <div class="overlay-tab-evochain" id="tab-evochain"></div>
-            <button onclick="closeOverlay()">Close</button>
+                <div class="overlay-tab-content tab-main" id="main"></div>
+                <div class="overlay-tab-content tab-stats" id="stats"></div>
+                <div class="overlay-tab-content tab-evochain" id="evochain"></div>
             </div>
         </div>
-    </div>
 
 </body>
 
