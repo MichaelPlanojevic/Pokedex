@@ -4,6 +4,7 @@ body {
   color: #333 !important;
   margin: 0;
   padding: 20px;
+  max-width: 1920px;
 }
 
 p {
@@ -370,54 +371,6 @@ p {
   display: none;
 }
 
-.evolution-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 0.5rem;
-}
-
-.evolution-container {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.evolution-item {
-  text-align: center;
-}
-
-.evolution-item img {
-  width: 96px;
-  height: 96px;
-  object-fit: contain;
-}
-
-.evolution-name {
-  margin-top: 5px;
-  font-weight: bold;
-}
-
-.evolution-arrow {
-  width: 36px;
-  height: 36px;
-  background: no-repeat center / contain
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M4 12h16m-6-6l6 6-6 6' stroke='%23555' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-  animation: arrowPulse 1.2s infinite;
-}
-
-@keyframes arrowPulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.7;
-  }
-}
-
 .search-button {
   padding: 8px 16px;
   background-color: #007bff;
@@ -463,3 +416,4 @@ p {
   padding: 8px 16px;
   margin: 0 10px;
 }
+
