@@ -30,6 +30,7 @@
   padding: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   position: relative;
+  height: 400px;
 }
 
 .overlay-img {
@@ -129,4 +130,131 @@
 
 .tab-evochain {
   padding: 1rem;
+}
+
+.next {
+  position: fixed;
+  right: 20px;
+}
+
+.prev {
+  position: fixed;
+  left: 20px;
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(40, 40, 40, 0.85);
+  color: #f1f1f1;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 1020;
+  padding: 0.75rem 1.25rem;
+  border-radius: 50%;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+.overlay-text{
+  color: white;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 4rem;
+}
+
+.evolution-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5rem;
+}
+
+.evolution-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.evolution-item {
+  text-align: center;
+  max-width: 160px;
+}
+
+.evolution-item img {
+  width: 100%;
+  height: auto;
+  max-height: 160px;
+  object-fit: contain;
+  margin-bottom: 4px;
+}
+
+.evolution-name {
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: aliceblue;
+}
+
+.evolution-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 12px;
+}
+
+.evolution-arrow::after {
+  content: "→";
+  font-size: 32px;
+  color: #555;
+}
+
+.stats-list {
+  list-style: none;
+  padding: 0;
+  margin: 2rem;
+}
+
+@media (max-width: 1600px) {
+  .nav-btn {
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+  }
+  .evolution-item {
+  text-align: center;
+  max-width: 80px;
+}
+
+.evolution-item img {
+  width: 100%;
+  height: auto;
+  max-height: 80px;
+  object-fit: contain;
+  margin-bottom: 4px;
+}
+
+.evolution-name {
+  text-align: center;
+  font-weight: bold;
+  font-size: 8px;
+  color: aliceblue;
+}
+
+  .evolution-arrow {
+    width: 32px;
+    height: 32px;
+    margin: 0 8px;
+  }
+
+  .evolution-arrow::after {
+    font-size: 24px;
+  }
 }
