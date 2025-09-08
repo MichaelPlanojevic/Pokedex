@@ -10,6 +10,7 @@ async function fetchMultiplePokemon(start = 1, end = 151) {
         results.forEach(data => {
             const item = createPokemonItemColor(data);
             container.appendChild(item);
+            allPokemonData.push(extractMinimalData(data));
         });
     } catch (error) {
         console.error('Error fetching Pokémon data:', error);
