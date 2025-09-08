@@ -29,14 +29,14 @@ function setOverlayTheme(data) {
 
 function renderMainTab(data) {
     document.getElementById('main').innerHTML = `
-        <p><strong>Height:</strong> ${data.height}cm</p>
-        <p><strong>Weight:</strong> ${data.weight}kg</p>
-        <p><strong>Experience:</strong> ${data.base_experience}Exp</p>`
+        <p class="overlay-text"><strong>Height:</strong> ${data.height}cm</p>
+        <p class="overlay-text"><strong>Weight:</strong> ${data.weight}kg</p>
+        <p class="overlay-text"><strong>Experience:</strong> ${data.base_experience}Exp</p>`
 }
 
 function renderStatsTab(data) {
     document.getElementById('stats').innerHTML = `
-       <ul>
+       <ul class="stats-list">
         ${data.stats.map(stat => `
             <li class="stat-item">
                 <span class="stat-name">${stat.stat.name}</span>
@@ -72,10 +72,17 @@ async function showOverlay(data) {
     await renderEvolutionTab(data.species.url);
     switchOverlayTab('main');
     document.getElementById('pokemonOverlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    enableOverlayClosing();
 }
 
-function closeOverlay() {
-  document.getElementById('pokemonOverlay').style.display = 'none';
+function enableOverlayClosing() {
+  document.getElementById('pokemonOverlay').addEventListener('click', (event) => {
+    if (event.target === document.getElementById('pokemonOverlay')) {
+      document.getElementById('pokemonOverlay').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  });
 }
 
 function switchOverlayTab(tabName) {
