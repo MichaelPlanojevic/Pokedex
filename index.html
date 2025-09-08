@@ -34,9 +34,10 @@
     <div class="pokemon-list" id="pokemonList"></div>
     <div id="pokemonOverlay" class="overlay">
         <div class="overlay-header">
-            <button id="prevBtn" class="nav-btn" onclick="previousPokemon()">&#8592;</button>
-            <button id="nextBtn" class="nav-btn" onclick="nextPokemon()">&#8594;</button>
-            <button id="closeBtn" class="nav-btn" onclick="closeOverlay()">&times;</button>
+            <div class="overlay-nav">
+                <button id="prevBtn" class="nav-btn prev" onclick="previousPokemon()">&#8592;</button>
+                <button id="nextBtn" class="nav-btn next" onclick="nextPokemon()">&#8594;</button>
+            </div>
             <div class="overlay-content" onclick="event.stopPropagation()">
                 <img class="overlay-img" id="overlayImg" src="" alt="">
                 <h2 id="overlayName" class="overlay-name"></h2>
