@@ -35,16 +35,16 @@
     <div id="pokemonOverlay" class="overlay">
         <div class="overlay-header">
             <div class="overlay-nav">
-                <button id="prevBtn" class="nav-btn prev" onclick="previousPokemon()">&#8592;</button>
-                <button id="nextBtn" class="nav-btn next" onclick="nextPokemon()">&#8594;</button>
+                <button id="prevBtn" class="nav-btn prev">&#8592;</button>
+                <button id="nextBtn" class="nav-btn next">&#8594;</button>
             </div>
-            <div class="overlay-content" onclick="event.stopPropagation()">
+            <div id="overlayContent" class="overlay-content">
                 <img class="overlay-img" id="overlayImg" src="" alt="">
                 <h2 id="overlayName" class="overlay-name"></h2>
                 <div class="overlay-tabs">
-                    <button onclick="switchOverlayTab('main')">Main</button>
-                    <button onclick="switchOverlayTab('stats')">Stats</button>
-                    <button onclick="switchOverlayTab('evochain')">EvoChain</button>
+                    <button id="mainTab">Main</button>
+                    <button id="statsTab">Stats</button>
+                    <button id="evochainTab">EvoChain</button>
                 </div>
             </div>
             <div class="overlay-main-content">
@@ -53,7 +53,10 @@
                 <div class="overlay-tab-content tab-evochain" id="evochain"></div>
             </div>
         </div>
-
+    </div>
+    <div>
+        <button id="loadMoreBtn">Load More</button>
+    </div>
 </body>
 
 </html>
