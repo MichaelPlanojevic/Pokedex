@@ -1,20 +1,22 @@
 async function fetchMultiplePokemon(start = 1, end = 151) {
-    const container = document.getElementById('pokemonList');
-    container.innerHTML = '';
-    try {
-        const promises = [];
-        for (let id = start; id <= end; id++) {
-            promises.push(fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res => res.json()));
-        }
-        const results = await Promise.all(promises);
-        results.forEach(data => {
-            const item = createPokemonItemColor(data);
-            container.appendChild(item);
-            allPokemonData.push(extractMinimalData(data));
-        });
-    } catch (error) {
-        console.error('Error fetching Pokémon data:', error);
+  try {
+    const promises = [];
+    for (let id = start; id <= end; id++) {
+      promises.push(fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res => res.json()));
     }
+    const results = await Promise.all(promises);
+    const minimalData = results.map(data => extractMinimalData(data));
+    allPokemonData.push(...minimalData);
+    const container = document.getElementById('pokemonList');
+    results.forEach(data => {
+      const item = createPokemonItemColor(data);
+      container.appendChild(item);
+    });
+    return minimalData;
+  } catch (error) {
+    console.error('Error fetching Pokémon data:', error);
+    return [];
+  }
 }
 
 function capitalize(str) {
