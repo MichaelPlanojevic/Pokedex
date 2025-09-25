@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="icons.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="overlay.css">
+    <link rel="stylesheet" href="responsive.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
@@ -23,11 +24,12 @@
             <div class="pokeball"></div>
         </div>
         <div class="header-title">
-            <h1>Pokedex</h1>
+            <div class="pokeball header"></div>
+            <h1 class="pokeball-title">Pokedex</h1>
         </div>
         <div class="header-controls">
             <input class="search-filter" type="text" id="searchInput" placeholder="Search Pokémon...">
-            <button id="searchBtn" class="search-button">Search</button>
+            <button id="searchBtn" class="search-button"><h3 class="search-button-text">Search</h3></button>
             <p id="searchMessage" class="search-message"></p>
         </div>
     </header>
@@ -54,8 +56,8 @@
             </div>
         </div>
     </div>
-    <div>
-        <button id="loadMoreBtn">Load More</button>
+    <div class="footer">
+        <button class="load-more-button" id="loadMoreBtn">Load More</button>
     </div>
 </body>
 
