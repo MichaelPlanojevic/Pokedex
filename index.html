@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script.js"></script>
-    <script src="db.js"></script>
+    <script src="api.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="icons.css">
     <link rel="stylesheet" href="style.css">
@@ -21,11 +21,12 @@
 </head>
 
 <body onload="init()">
+    <div class="loading-screen" id="loadingScreen">
+        <div class="pokeball"></div>
+        </div>
     <div class="Pokedex wrappers">
     <header>
-        <div class="loading-screen" id="loadingScreen">
-            <div class="pokeball"></div>
-        </div>
+        <div class="header-content">
         <div class="header-title">
             <div class="pokeball header"></div>
             <h1 class="pokeball-title">Pokedex</h1>
@@ -37,6 +38,7 @@
             </button>
             <p id="searchMessage" class="search-message"></p>
         </div>
+        </div>
     </header>
     <div class="pokemon-list" id="pokemonList"></div>
     <div id="pokemonOverlay" class="pokemon-overlay">
@@ -44,6 +46,7 @@
             <div class="overlay-nav">
                 <button id="prevBtn" class="nav-btn prev">&#8592;</button>
                 <button id="nextBtn" class="nav-btn next">&#8594;</button>
+                <button class="nav-btn close" id="closeOverlayBtn">&#10006;</button>
             </div>
             <div id="overlayContent" class="overlay-content">
                 <img class="overlay-img" id="overlayImg" src="" alt="">
@@ -60,6 +63,7 @@
                 <div class="overlay-tab-content tab-evochain" id="evochain"></div>
             </div>
         </div>
+    </div>
     </div>
     <div class="footer">
         <button class="load-more-button" id="loadMoreBtn">Load More</button>
