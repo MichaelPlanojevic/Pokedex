@@ -23,6 +23,14 @@ async function loadingScreen() {
   ]);
 }
 
+function disableScroll() {
+  document.body.style.overflow = 'hidden';
+}
+
+function enableScroll() {
+  document.body.style.overflow = 'auto';
+}
+
 function toggleCardBody(cardElement) {
   cardElement.classList.toggle('show-details');
 }
@@ -163,6 +171,7 @@ async function loadMorePokemon() {
   const nextStart = currentCount + 1;
   const nextEnd = currentCount + 20;
   document.getElementById("loadingScreen").classList.remove("hidden");
+  disableScroll();
   const newPokemon = await fetchMultiplePokemon(nextStart, nextEnd);
   await new Promise(resolve => setTimeout(resolve, 2000));
   const uniqueNewPokemon = newPokemon.filter(newPoke =>
@@ -170,4 +179,5 @@ async function loadMorePokemon() {
   );
   allPokemonData.push(...uniqueNewPokemon);
   document.getElementById("loadingScreen").classList.add("hidden");
+  enableScroll();
 }
