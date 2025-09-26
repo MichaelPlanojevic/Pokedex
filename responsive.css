@@ -52,7 +52,6 @@
 
 @media (max-width: 1220px) {
   .nav-btn {
-    top: auto;
     transform: translateY(0);
   }
 }

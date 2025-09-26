@@ -5,6 +5,35 @@ body {
   color: #333 !important;
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-filter {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1;
+  min-width: 150px;
+}
+
 .wrappers {
   max-width: 1440px;
   width: 100%;
@@ -116,13 +145,6 @@ p {
   align-items: center;
   padding: 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.search-filter {
-  margin-bottom: 12px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 }
 
 .pokeball {
@@ -381,7 +403,6 @@ p {
 }
 
 .search-button {
-  margin-top: 1rem;
   width: 60px;
   height: 40px;
   border-radius: 50%;
@@ -399,14 +420,6 @@ p {
   color: black;
   line-height: 1.2;
   padding-top: 4px;
-}
-
-.search-filter {
-  display: flex;
-  align-items: center;
-  width: 300px;
-  height: 40px;
-  margin: 1rem;
 }
 
 .search-filter input {
@@ -435,6 +448,11 @@ p {
   margin: 0 10px;
 }
 
+.close {
+  top: 10px !important;
+  right: 10px !important;
+}
+
 .pokeball-title {
   font-size: 4rem;
   font-weight: bold;
@@ -448,6 +466,8 @@ p {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  justify-content: space-between;
+  display: flex;
 }
 
 .pokeball.header {
@@ -466,4 +486,11 @@ p {
   display: block;
   position: relative;
   font-weight: bold;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
