@@ -2,7 +2,8 @@ let currentIndex = 0;
 let allPokemonData = [];
 
 async function init() {
-  document.getElementById("searchBtn").addEventListener("click", filterSearchPokemon);
+  document.getElementById("closeOverlayBtn").addEventListener("click", closeOverlayBtn);
+  document.getElementById("searchInput").addEventListener("input", filterSearchPokemon);
   document.getElementById("nextBtn").addEventListener("click", nextPokemon);
   document.getElementById("prevBtn").addEventListener("click", previousPokemon);
   document.getElementById("mainTab").addEventListener("click", () => switchOverlayTab('main'));
@@ -93,6 +94,12 @@ function enableOverlayClosing() {
   }
   overlay.addEventListener('click', closeOverlay);
   overlay.addEventListener('touchstart', closeOverlay);
+}
+
+function closeOverlayBtn() {
+  const overlay = document.getElementById('pokemonOverlay');
+  overlay.style.display = 'none';
+  document.body.style.overflow = 'auto';
 }
 
 function switchOverlayTab(tabName) {
