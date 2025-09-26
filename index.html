@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script.js"></script>
     <script src="db.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +21,7 @@
 </head>
 
 <body onload="init()">
+    <div class="Pokedex wrappers">
     <header>
         <div class="loading-screen" id="loadingScreen">
             <div class="pokeball"></div>
@@ -37,7 +39,7 @@
         </div>
     </header>
     <div class="pokemon-list" id="pokemonList"></div>
-    <div id="pokemonOverlay" class="overlay">
+    <div id="pokemonOverlay" class="pokemon-overlay">
         <div class="overlay-header">
             <div class="overlay-nav">
                 <button id="prevBtn" class="nav-btn prev">&#8592;</button>
@@ -61,6 +63,7 @@
     </div>
     <div class="footer">
         <button class="load-more-button" id="loadMoreBtn">Load More</button>
+    </div>
     </div>
 </body>
 
