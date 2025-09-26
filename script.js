@@ -1,10 +1,8 @@
 let currentIndex = 0;
 let allPokemonData = [];
 
-
 async function init() {
   document.getElementById("searchBtn").addEventListener("click", filterSearchPokemon);
-  document.getElementById("searchInput").addEventListener("input", filterSearchPokemon);
   document.getElementById("nextBtn").addEventListener("click", nextPokemon);
   document.getElementById("prevBtn").addEventListener("click", previousPokemon);
   document.getElementById("mainTab").addEventListener("click", () => switchOverlayTab('main'));
@@ -86,12 +84,15 @@ async function showOverlay(data) {
 }
 
 function enableOverlayClosing() {
-  document.getElementById('pokemonOverlay').addEventListener('click', (event) => {
-    if (event.target === document.getElementById('pokemonOverlay')) {
-      document.getElementById('pokemonOverlay').style.display = 'none';
+  const overlay = document.getElementById('pokemonOverlay');
+  function closeOverlay(event) {
+    if (event.target === overlay) {
+      overlay.style.display = 'none';
       document.body.style.overflow = 'auto';
     }
-  });
+  }
+  overlay.addEventListener('click', closeOverlay);
+  overlay.addEventListener('touchstart', closeOverlay);
 }
 
 function switchOverlayTab(tabName) {
@@ -126,8 +127,12 @@ async function previousPokemon() {
 function filterSearchPokemon() {
   const query = document.getElementById("searchInput").value.trim().toLowerCase();
   const message = document.getElementById("searchMessage");
-  message.textContent = "Please enter at least 3 characters.";
+  if (query.length === 0) {
+    refreshPokemon();
+    return;
+  }
   if (query.length < 3) {
+    message.textContent = "Please enter at least 3 characters.";
     message.style.display = "flex";
     return;
   } else {
@@ -138,6 +143,12 @@ function filterSearchPokemon() {
     const name = pokemon.querySelector(".pokemon-name").textContent.toLowerCase();
     pokemon.style.display = name.includes(query) ? "block" : "none";
   });
+}
+
+function refreshPokemon() {
+  const allPokemon = document.querySelectorAll("#pokemonList .pokemon-item");
+  allPokemon.forEach(pokemon => (pokemon.style.display = "block"));
+  document.getElementById("searchMessage").style.display = "none";
 }
 
 async function loadMorePokemon() {
