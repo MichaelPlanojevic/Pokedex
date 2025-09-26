@@ -1,10 +1,10 @@
-.overlay {
+.pokemon-overlay {
   display: none;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.7);
   justify-content: center;
   align-items: center;
@@ -27,10 +27,9 @@
 }
 .overlay-main-content {
   background-color: #212529;
-  padding: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   position: relative;
-  height: 400px;
+  height: 50vh;
 }
 
 .overlay-img {
@@ -45,6 +44,10 @@
   height: 80%;
   width: 80%;
   padding: 1rem;
+}
+
+.tab-main {
+  height: 100%;
 }
 
 .overlay-tabs {
@@ -74,6 +77,11 @@
   transition: all 0.2s ease;
 }
 
+.tab-stats {
+  padding: 2rem;
+  min-height: 100%;
+}
+
 .overlay-tabs button:hover {
   background: #dcdcdc;
 }
@@ -88,10 +96,8 @@
   display: none;
   position: relative;
   opacity: 0;
-  min-width: 200px;
   visibility: hidden;
   transition: opacity 0.3s ease;
-  min-height: 200px;
   overflow-y: auto;
 }
 
@@ -119,11 +125,6 @@
 .loading-screen.hidden {
   opacity: 0;
   pointer-events: none;
-}
-
-.tab-stats {
-  padding: 1rem;
-  margin: 2rem;
 }
 
 .next {
@@ -155,39 +156,24 @@
 .overlay-text {
   color: white;
   text-align: center;
-  margin-top: 1rem;
-  font-size: 1.2rem;
+  margin: 3rem;
+  font-size: 2rem;
   font-weight: bold;
-  margin: 4rem;
-}
-
-.evolution-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 5rem;
 }
 
 .evolution-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  height: 400px;
-}
-
-.evolution-item {
-  text-align: center;
-  max-width: 160px;
+  height: 50vh;
+  gap: 2rem;
 }
 
 .evolution-item img {
   width: 100%;
   height: auto;
-  max-height: 160px;
+  max-height: 30vh;
   object-fit: contain;
-  margin-bottom: 4px;
 }
 
 .evolution-name {
@@ -197,18 +183,12 @@
   color: aliceblue;
 }
 
-.evolution-arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  margin: 0 12px;
+.evolution-arrow{
+  font-size: 2rem;
 }
 
 .evolution-arrow::after {
   content: "→";
-  font-size: 32px;
   color: #555;
 }
 
