@@ -5,6 +5,7 @@ async function fetchMultiplePokemon(start = 1, end = 151) {
       promises.push(fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res => res.json()));
     }
     const results = await Promise.all(promises);
+    results.sort((a, b) => a.id - b.id);
     const minimalData = results.map(data => extractMinimalData(data));
     allPokemonData.push(...minimalData);
     const container = document.getElementById('pokemonList');

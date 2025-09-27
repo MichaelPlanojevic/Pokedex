@@ -82,6 +82,8 @@ async function renderEvolutionTab(speciesUrl) {
 }
 
 async function showOverlay(data) {
+  currentIndex = allPokemonData.findIndex(p => p.id === data.id);
+  if (currentIndex === -1) currentIndex = 0;
   setOverlayTheme(data);
   renderMainTab(data);
   renderStatsTab(data);
@@ -175,9 +177,10 @@ async function loadMorePokemon() {
   const newPokemon = await fetchMultiplePokemon(nextStart, nextEnd);
   await new Promise(resolve => setTimeout(resolve, 2000));
   const uniqueNewPokemon = newPokemon.filter(newPoke =>
-    !allPokemonData.some(existingPoke => existingPoke.name === newPoke.name)
+    !allPokemonData.some(existingPoke => existingPoke.id === newPoke.id)
   );
   allPokemonData.push(...uniqueNewPokemon);
+  allPokemonData.sort((a, b) => a.id - b.id);
   document.getElementById("loadingScreen").classList.add("hidden");
   enableScroll();
 }
