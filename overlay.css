@@ -45,6 +45,7 @@
   height: 80%;
   width: 80%;
   padding: 1rem;
+  position: relative;
 }
 
 .tab-main {
@@ -128,32 +129,49 @@
   pointer-events: none;
 }
 
-.next {
-  position: fixed;
-  right: 20px;
-}
-
-.prev {
-  position: fixed;
-  left: 20px;
+.overlay-nav {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2%;
 }
 
 .nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(40, 40, 40, 0.85);
+  width: clamp(40px, 5vw, 60px);
+  height: clamp(40px, 5vw, 60px);
+  font-size: clamp(1rem, 2vw, 2rem);
+  border-radius: 50%;
+  background: rgba(40,40,40,0.85);
   color: #f1f1f1;
   border: none;
-  font-size: 2rem;
   cursor: pointer;
-  z-index: 1020;
-  padding: 0.75rem 1.25rem;
-  border-radius: 50%;
-  transition: background 0.2s, transform 0.2s;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
 }
 
+.prev {
+  top: 50%;
+  left: -4%;
+  transform: translateY(-50%);
+}
+
+.next {
+  top: 50%;
+  right: -4%;
+  transform: translateY(-50%);
+}
+
+.close {
+  top: 2%;
+  right: 2%;
+}
 .overlay-text {
   color: white;
   text-align: center;

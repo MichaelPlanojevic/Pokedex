@@ -1,8 +1,14 @@
-@media (max-width: 1600px) {
-  .nav-btn {
-    font-size: 1.5rem;
-    padding: 0.5rem 1rem;
-  }
+
+@media (max-width: 768px) {
+  .prev { left: -6%; }
+  .next { right: -6%; }
+  .nav-btn { font-size: clamp(0.9rem, 4vw, 2rem); padding: clamp(0.4rem, 2vw, 1rem); }
+}
+
+@media (min-width: 1920px) {
+  .prev { left: -60px; }
+  .next { right: -60px; }
+  .nav-btn { font-size: clamp(1.5rem, 2vw, 3rem); padding: clamp(0.5rem, 1vw, 2rem); }
 }
 
 @media (max-width: 900px) {
@@ -109,3 +115,4 @@
     padding: 5px;
   }
 }
+

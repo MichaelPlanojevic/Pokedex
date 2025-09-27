@@ -438,16 +438,6 @@ p {
   margin: 0;
 }
 
-.nav-btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  padding: 8px 16px;
-  margin: 0 10px;
-}
-
 .close {
   top: 10px !important;
   right: 10px !important;
